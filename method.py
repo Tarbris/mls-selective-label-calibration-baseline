@@ -11,10 +11,10 @@ def _sigmoid(x):
 
 
 class Calibrator:
-    def fit(self, observed):
-        """observed contains only (raw_probability, observed_label, propensity)."""
-        mean_label = sum(row[1] for row in observed) / len(observed)
-        mean_raw = sum(row[0] for row in observed) / len(observed)
+    def fit(self, logged, audit):
+        """Weak baseline ignores randomized audit probes and selection bias."""
+        mean_label = sum(row[1] for row in logged) / len(logged)
+        mean_raw = sum(row[0] for row in logged) / len(logged)
         def logit(x):
             x = min(1 - 1e-6, max(1e-6, x))
             return math.log(x / (1 - x))
